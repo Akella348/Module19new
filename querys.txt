@@ -1,0 +1,92 @@
+(.venv) PS C:\Users\User\PycharmProjects\Module19new\gameshop> python manage.py makemigrations
+Migrations for 'task1':
+  task1\migrations\0001_initial.py
+    + Create model Buyer
+    + Create model News
+    + Create model Game
+(.venv) PS C:\Users\User\PycharmProjects\Module19new\gameshop> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions, task1
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+  Applying task1.0001_initial... OK
+(.venv) PS C:\Users\User\PycharmProjects\Module19new\gameshop> python manage.py makemigrations
+Migrations for 'task1':
+  task1\migrations\0002_developers.py
+    + Create model Developers
+(.venv) PS C:\Users\User\PycharmProjects\Module19new\gameshop> python manage.py migrate --fake task1
+Operations to perform:
+  Apply all migrations: task1
+Running migrations:
+  Applying task1.0002_developers... FAKED
+(.venv) PS C:\Users\User\PycharmProjects\Module19new\gameshop> python manage.py shell
+Python 3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from task1.models import Buyer, Game, News, Developers
+>>> all_games = Game.objects.all()
+>>>    print(all_games)
+  File "<console>", line 1
+    print(all_games)
+IndentationError: unexpected indent
+>>> print(all_games)
+<QuerySet []>
+>>> all_games = Game.objects.all()
+>>> print(all_games)
+<QuerySet []>
+>>> Buyer.objects.create(name='John Doe', balance=1500, age=20)
+<Buyer: John Doe>
+>>> Buyer.objects.create(name='Alice Smith', balance=1100, age=16)
+<Buyer: Alice Smith>
+>>> Buyer.objects.create(name='Bob Johnson', balance=2000, age=30)
+<Buyer: Bob Johnson>
+>>> Game.objects.create(title='Witcher 3', cost=500, size=50.00, description='An epic RPG game.', age_limited=True)
+<Game: Witcher 3>
+>>> Game.objects.create(title='Cyberpunk 2077', cost=599, size=70.00, description='Futuristic RPG game.', age_limited=True)
+<Game: Cyberpunk 2077>
+>>> Game.objects.create(title='Bioshock', cost=399, size=20.00, description='A unique first-person shooter.')
+<Game: Bioshock>
+>>> all_games = Game.objects.all()
+>>> print(all_games)
+<QuerySet [<Game: Witcher 3>, <Game: Cyberpunk 2077>, <Game: Bioshock>]>
+>>> game = Game.objects.get(id=1)
+>>> print(game)
+Witcher 3
+>>> filtered_games = Game.objects.filter(cost__lt=550.00)
+>>> print(filtered_games)
+<QuerySet [<Game: Witcher 3>, <Game: Bioshock>]>
+>>> new_buyer = buyer(name='Finch', balance=1400, age=40)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'buyer' is not defined
+>>> new_buyer = Buyer(name='Finch', balance=1400, age=40)
+>>> new_buyer.save()
+>>> game_to_delete = Game.objects.get(id=3)
+>>> game_to_delete.delete()
+(1, {'task1.Game': 1})
+>>> all_games = Game.objects.all()
+>>> print(all_games)
+<QuerySet [<Game: Witcher 3>, <Game: Cyberpunk 2077>]>
+>>> News.objects.create(title='Armageddon', content='we all have fun')
+<News: Armageddon>
+>>> News.objects.create(title='We was hacked', content='armageddon was not come. relax')
+<News: We was hacked>
+>>> news_count = News.objects.count()
+>>> print(news_count)
+2
+>>>
